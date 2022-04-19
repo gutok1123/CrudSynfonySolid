@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\CoursesEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Interface\CoursesInterface;
 /**
@@ -38,7 +36,7 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         $courses->setCreatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
         $courses->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
        
-        $doctrine = $registry->getManager();
+        $doctrine = $this->registry->getManager();
         $doctrine->persist($courses);
         $doctrine->flush();
   

@@ -2,40 +2,39 @@
 
 namespace App\Entity;
 
-use App\Repository\CoursesEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CoursesEntityRepository::class)]
+
+/**
+ * @ORM\Entity(repositoryClass=CoursesEntityRepository::class)
+ */
 class CoursesEntity implements \JsonSerializable
 {
     
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
     private $id;
     
-    #[ORM\Title]
-    #[ORM\Column(type: 'string')]
+    /** @ORM\Column(type="string", length=255) */
     private $title;
     
-    #[ORM\Description]
-    #[ORM\Column(type: 'string')]
+   /** @ORM\Column(type="string", length=255) */
     private $description;
     
-    #[ORM\InitalDate]
-    #[ORM\Column(type: 'string')]
+    /** @ORM\Column(type="date") */
     private $initialDate;
     
-    #[ORM\FinalDate]
-    #[ORM\Column(type: 'string')]
+    /** @ORM\Column(type="date") */
     private $finalDate;
     
-    #[ORM\CreatedAt]
-    #[ORM\Column(type:"datetime", columnDefinition:"TIMESTAMP DEFAULT CURRENT_TIMESTAMP")]
+    
+    /** @ORM\Column(type="datetime",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" ) */
     private $createdAt;
     
-    #[ORM\UpdatedAt]
-    #[ORM\Column(type:"datetime", columnDefinition:"TIMESTAMP DEFAULT CURRENT_TIMESTAMP")]
+    /** @ORM\Column(type="datetime",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" ) */
     private $updatedAt;
 
     /**
