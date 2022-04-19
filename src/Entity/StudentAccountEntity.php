@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\DateType;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=StudentEntityRepository::class)
+ * @ORM\Entity(repositoryClass=StudentAccountEntityRepository::class)
  */
-class StudentEntity  implements \JsonSerializable
+class StudentAccountEntity implements \JsonSerializable
 {
-     /**
+    /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -23,9 +23,6 @@ class StudentEntity  implements \JsonSerializable
    /** @ORM\Column(type="string", length=255, unique=true) */
     private $email;
 
-   
-    /** @ORM\Column(type="date") */
-    private $birthDay;
 
     /** @ORM\Column(type="string", length=50, nullable=true) */
     private $status;
@@ -60,14 +57,7 @@ class StudentEntity  implements \JsonSerializable
         return $this->email;
     }
 
-    /**
-     * @return datetime
-     */
-    public function getBirthDay()
-    {
-        return $this->birthDay;
-    }
-    
+  
     /**
      * @return string
      */
@@ -125,14 +115,6 @@ class StudentEntity  implements \JsonSerializable
         $this->status = $status;
     }
 
-    /**
-     * @param datetime $birthDay
-     */
-    public function setBirthDay(string $birthDay)
-    { 
-        
-        $this->birthDay = $birthDay;
-    }
 
      /**
      * @param dateTime
@@ -159,7 +141,6 @@ class StudentEntity  implements \JsonSerializable
             "id" => $this->getId(),
             "name" => $this->getName(),
             "status" => $this->getStatus(),
-            "birthDay" =>$this->getBirthDay(),
             "email" => $this->getEmail(),
             "created_at" => $this->getCreatedAt(),
             "updated_at"=> $this->getUpdatedAt()

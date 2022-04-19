@@ -3,74 +3,84 @@
 namespace App\Repository;
 
 use App\Entity\StudentEntity;
+use App\Interface\StudentInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method StudentEntity|null find($id, $lockMode = null, $lockVersion = null)
- * @method StudentEntity|null findOneBy(array $criteria, array $orderBy = null)
- * @method StudentEntity[]    findAll()
- * @method StudentEntity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class StudentEntityRepository extends ServiceEntityRepository
+class StudentEntityRepository extends ServiceEntityRepository implements StudentInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, StudentEntity::class);
+        $this->registry = $registry;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(StudentEntity $entity, bool $flush = true): void
+    public function showAll():Array
     {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
+        return $this->findAll();
+    }
+
+    public function create(array $request): StudentEntity
+    {
+        $students = new StudentEntity;
+        $students->setName($request['name']);
+        $students->setEmail($request['email']);
+        $students->setStatus($request['status']);
+        $students->setBirthDay($request['birthday']);
+        $students->setCreatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+        $students->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+       
+        $doctrine = $this->registry->getManager();
+        $doctrine->persist($students);
+        $doctrine->flush();
+  
+        return $students;
+    }
+    
+     public function update(array $request, int $id): StudentEntity
+     {
+    
+       $students  =  $this->find($id);
+       
+        if(isset($request['name']))
+        {
+            $students->setName($request['name']);
         }
-    }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(StudentEntity $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
+        if(isset($request['email']))
+        {
+            $students->setEmail($request['email']);
         }
-    }
 
-    // /**
-    //  * @return StudentEntity[] Returns an array of StudentEntity objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if(isset($request['birthday']))
+        {
+            $students->setBirthDay($request['birthday']);
+        }
 
-    /*
-    public function findOneBySomeField($value): ?StudentEntity
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+        if(isset($request['status']))
+        {
+            $students->setStatus($request['status']);
+        }
+
+        $students->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+
+        $doctrine = $this->registry->getManager();
+        $doctrine->flush();
+
+       return $students;
+     }
+
+     public function delete(int $id): string
+     {
+        $students  =  $this->find($id); 
+        $msg = "Registro Deletado com Sucesso";
+
+        $doctrine = $this->registry->getManager();
+        $doctrine->remove($students);
+        $doctrine->flush();
+
+         return $msg;
+     }    
+
+    
 }

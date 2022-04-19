@@ -64,7 +64,7 @@ class CoursesEntity implements \JsonSerializable
      /**
      * @return date
      */
-    public function getInitialDate(): ?string
+    public function getInitialDate(): ?\DateTimeInterface
     {
         return $this->initialDate;
     }
@@ -72,7 +72,7 @@ class CoursesEntity implements \JsonSerializable
      /**
      * @return dateTime
      */
-    public function getFinalDate(): ?string
+    public function getFinalDate(): ?\DateTimeInterface
     {
         return $this->finalDate;
     }
@@ -123,7 +123,7 @@ class CoursesEntity implements \JsonSerializable
      /**
      * @param date
      */
-    public function setInitialDate(string $initialDate)
+    public function setInitialDate(\DateTimeInterface $initialDate)
     {
         $this->initialDate = $initialDate;
     }
@@ -131,7 +131,7 @@ class CoursesEntity implements \JsonSerializable
      /**
      * @param dateTime
      */
-    public function setFinalDate(string $finalDate)
+    public function setFinalDate(\DateTimeInterface $finalDate)
     {
         $this->finalDate = $finalDate;
     }
