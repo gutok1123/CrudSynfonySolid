@@ -21,6 +21,12 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         return $this->findAll();
     }
     
+    public function findUser(int $id): CoursesEntity
+    {
+        $find = $this->find($id);
+
+        return $find;
+    }
     public function create(array $request): CoursesEntity
     {
         $courses = new CoursesEntity;

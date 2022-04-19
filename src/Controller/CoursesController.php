@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 use App\Service\CoursesService;
 
 class CoursesController extends AbstractController
@@ -29,6 +28,18 @@ class CoursesController extends AbstractController
             return $this->json("Erro 700:(!");
         }
     }
+    
+     /**
+     * @Route("/api/course/vizualisation/{id}", name="app_courses_vizualisation",methods="GET")
+     */
+    public function find(int $id): JsonResponse
+    {
+        try{
+            return $this->json($this->service->find($id));
+            }catch(\Exception $e){
+                return $this->json("Erro 701:(!");
+            }
+    }
 
      /**
      * @Route("/api/course/create", name="create_courses",methods="POST")
@@ -39,7 +50,7 @@ class CoursesController extends AbstractController
       $data = $request->request->all();
       return $this->json(["Dado criado com sucesso" => $this->service->create($data)]);
       }catch(\Exception $e){
-        return $this->json("Erro 701:(!");
+        return $this->json("Erro 702:(!");
       }
     }
 
@@ -53,7 +64,7 @@ class CoursesController extends AbstractController
         $data = $request->request->all();
         return $this->json(["Dado atualizado com sucesso" => $this->service->update($data,$id)]);
        }catch(\Exception $e){
-        return $this->json("Erro 702:(!");
+        return $this->json("Erro 703:(!");
        }
     }
 
@@ -66,7 +77,7 @@ class CoursesController extends AbstractController
         try{
         return $this->json($this->service->delete($id));
         }catch(\Exception $e){
-            return $this->json("Erro 703 :(!");
+            return $this->json("Erro 704 :(!");
         }
     }
 }

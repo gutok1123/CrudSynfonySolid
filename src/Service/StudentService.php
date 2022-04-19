@@ -16,6 +16,12 @@ class StudentService
     {
       return $this->repository->showAll();
     }
+
+    public function find(int $id)
+    {
+      return $this->repository->findUser($id);
+    }
+    
     public function create(array $request)
     {
      

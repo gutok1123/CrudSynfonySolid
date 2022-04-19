@@ -29,6 +29,18 @@ class StudentController extends AbstractController
             return $this->json("Erro 800:(!");
         }
     }
+    
+    /**
+     * @Route("/api/student/vizualisation/{id}", name="app_courses_vizualisation",methods="GET")
+     */
+    public function find(int $id): JsonResponse
+    {
+        try{
+            return $this->json($this->service->find($id));
+            }catch(\Exception $e){
+                return $this->json("Erro 801:(!");
+            }
+    }
 
      /**
      * @Route("/api/student/create", name="create_students",methods="POST")
@@ -53,7 +65,7 @@ class StudentController extends AbstractController
         $data = $request->request->all();
         return $this->json(["Dado atualizado com sucesso" => $this->service->update($data,$id)]);
        }catch(\Exception $e){
-        return $this->json("Erro 802:(!");
+        return $this->json("Erro 803:(!");
        }
     }
 
@@ -66,7 +78,7 @@ class StudentController extends AbstractController
         try{
         return $this->json($this->service->delete($id));
         }catch(\Exception $e){
-            return $this->json("Erro 803 :(!");
+            return $this->json("Erro 804 :(!");
         }
     }
 }

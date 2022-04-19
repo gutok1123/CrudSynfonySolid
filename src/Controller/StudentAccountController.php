@@ -30,6 +30,18 @@ class StudentAccountController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/api/student/account/vizualisation/{id}", name="app_student_account_vizualisation",methods="GET")
+     */
+    public function find(int $id): JsonResponse
+    {
+        try{
+            return $this->json($this->service->find($id));
+            }catch(\Exception $e){
+                return $this->json("Erro 901:(!");
+            }
+    }
+
      /**
      * @Route("/api/student/account/create", name="create_account_students",methods="POST")
      */

@@ -20,6 +20,13 @@ class StudentEntityRepository extends ServiceEntityRepository implements Student
         return $this->findAll();
     }
 
+    public function findUser(int $id): StudentEntity
+    {
+        $find = $this->find($id);
+
+        return $find;
+    }
+
     public function create(array $request): StudentEntity
     {
         $students = new StudentEntity;
