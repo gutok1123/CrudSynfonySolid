@@ -36,7 +36,8 @@ class CoursesEntity implements \JsonSerializable
     
     /** @ORM\Column(type="datetime",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" ) */
     private $updatedAt;
-
+   
+    
     /**
      * @return int
      */
@@ -161,10 +162,10 @@ class CoursesEntity implements \JsonSerializable
             "id" => $this->getId(),
             "title" => $this->getTitle(),
             "description" => $this->getDecription(),
-            "initial_date" =>$this->getInitialDate(),
-            "final_date" => $this->getFinalDate(),
-            "created_at" => $this->getCreatedAt(),
-            "updated_at"=> $this->getUpdatedAt()
+            "initial_date" =>$this->getInitialDate()->format('d-m-Y'),
+            "final_date" => $this->getFinalDate()->format('d-m-Y'),
+            "created_at" => $this->getCreatedAt()->format('d-m-Y'),
+            "updated_at"=> $this->getUpdatedAt()->format('d-m-Y')
         ];
     }
 }

@@ -159,7 +159,7 @@ class StudentEntity  implements \JsonSerializable
             "id" => $this->getId(),
             "name" => $this->getName(),
             "status" => $this->getStatus(),
-            "birthDay" =>$this->getBirthDay(),
+            "birthDay" =>$this->getBirthDay()->format('d-m-Y'),
             "email" => $this->getEmail(),
             "created_at" => $this->getCreatedAt(),
             "updated_at"=> $this->getUpdatedAt()
