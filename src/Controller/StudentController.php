@@ -48,7 +48,7 @@ class StudentController extends AbstractController
     public function create(Request $request): JsonResponse
     {
       try{
-      $data = $request->request->all();
+       $data = json_decode($request->getContent(), true);
       return $this->json($this->service->create($data));
       }catch(\Exception $e){
         return $this->json($e->getMessage());
@@ -62,7 +62,7 @@ class StudentController extends AbstractController
     {
        
        try{
-        $data = $request->request->all();
+         $data = json_decode($request->getContent(), true);
         return $this->json(["Dado atualizado com sucesso" => $this->service->update($data,$id)]);
        }catch(\Exception $e){
         return $this->json("Erro 803:(!");

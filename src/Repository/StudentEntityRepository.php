@@ -20,7 +20,7 @@ class StudentEntityRepository extends ServiceEntityRepository implements Student
         return $this->findAll();
     }
 
-    public function findUser(int $id): StudentEntity
+    public function findUser(int $id): mixed
     {
         $find = $this->find($id);
 
@@ -44,7 +44,7 @@ class StudentEntityRepository extends ServiceEntityRepository implements Student
         return $students;
     }
     
-     public function update(array $request, int $id): StudentEntity
+     public function update(array $request, int $id): mixed
      {
     
        $students  =  $this->find($id);

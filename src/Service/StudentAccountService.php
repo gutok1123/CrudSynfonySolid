@@ -12,24 +12,24 @@ class StudentAccountService
         $this->repository = $repository;
     }
 
-    public function showAll()
+    public function showAll() : mixed
     {
       return $this->repository->showAll();
     }
 
-    public function find(int $id)
+    public function find(int $id) : mixed
     {
       return $this->repository->findUser($id);
     }
     
-    public function create(array $request)
+    public function create(array $request) : StudentAccountEntity
     {
      
       return $this->repository->create($request);
     
     }
 
-    public function update(array $request, int $id): StudentAccountEntity
+    public function update(array $request, int $id): mixed
     {
       return $this->repository->update($request,$id);
     }

@@ -21,7 +21,7 @@ class StudentAccountEntityRepository extends ServiceEntityRepository implements 
         return $this->findAll();
     }
 
-    public function findUser(int $id): StudentAccountEntity
+    public function findUser(int $id): mixed
     {
         $find = $this->find($id);
 
@@ -44,7 +44,7 @@ class StudentAccountEntityRepository extends ServiceEntityRepository implements 
         return $studentAccounts;
     }
     
-     public function update(array $request, int $id): StudentAccountEntity
+     public function update(array $request, int $id): mixed
      {
     
        $studentAccounts  =  $this->find($id);
