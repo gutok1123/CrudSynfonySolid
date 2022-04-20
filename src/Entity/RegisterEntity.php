@@ -90,7 +90,7 @@ class RegisterEntity implements \JsonSerializable
          "Curso" => $this->getCoursesId()->getTitle(),
          "Descrição" => $this->getCoursesId()->getDecription(),
          "Data De Inicio" => $this->getCoursesId()->getInitialDate()->format('d-m-Y'),
-         "Data De Fim" => $this->getCoursesId()->getFinalDate()->format('d-m-Y')
+         "Data De Fim" => $this->getCoursesId()->getFinalDate()->format('d-m-Y'),
         ];
     }
 

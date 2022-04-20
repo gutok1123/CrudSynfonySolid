@@ -3,28 +3,93 @@
 namespace App\Repository;
 
 use App\Entity\RegisterEntity;
-use App\Interface\RegisterInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Interface\RegisterInterface;
 
-/**
- * @method RegisterEntity|null find($id, $lockMode = null, $lockVersion = null)
- * @method RegisterEntity|null findOneBy(array $criteria, array $orderBy = null)
- * @method RegisterEntity[]    findAll()
- * @method RegisterEntity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class RegisterEntityRepository extends ServiceEntityRepository implements RegisterInterface
 {
+    private $registry;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RegisterEntity::class);
         $this->registry = $registry;
     }
 
-    public function showAll()
+    public function showAll():Array
     {
         return $this->findAll();
     }
+    
+    public function findUser(int $id): mixed
+    {
+        
+        $find = $this->refind('2');
+
+        return  $find;
+    }
+    public function create(array $request): RegisterEntity
+    {
+        $courses = new RegisterEntity;
+        // $courses->setTitle($request['title']);
+        // $courses->setDescription($request['description']);
+        // $courses->setInitialDate($request['initial_date']);
+        // $courses->setFinalDate($request['final_date']);
+        // $courses->setCreatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+        // $courses->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+       
+        // $doctrine = $this->registry->getManager();
+        // $doctrine->persist($courses);
+        // $doctrine->flush();
+  
+         return $courses;
+    }
+    
+     public function update(array $request, int $id): mixed
+     {
+    
+        $courses  =  $this->find($id);
+       
+       if(isset($request['title']))
+        {
+            $courses->setTitle($request['title']);
+        }
+
+        if(isset($request['description']))
+        {
+            $courses->setDescription($request['description']);
+        }
+
+        if(isset($request['initial_date']))
+        {
+            $courses->setInitialDate($request['initial_date']);
+        }
+
+
+        if(isset($request['final_date']))
+        {
+            $courses->setFinalDate($request['final_date']);
+        }
+
+        $courses->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+
+        $doctrine = $this->registry->getManager();
+        $doctrine->flush();
+
+       return $courses;
+
+     }
+
+     public function delete(int $id): string
+     {
+        $courses  =  $this->find($id); 
+        $msg = "Registro Deletado com Sucesso";
+
+        $doctrine = $this->registry->getManager();
+        $doctrine->remove($courses);
+        $doctrine->flush();
+
+         return $msg;
+     }    
+   
 }
