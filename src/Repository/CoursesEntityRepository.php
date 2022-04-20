@@ -21,7 +21,7 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         return $this->findAll();
     }
     
-    public function findUser(int $id): CoursesEntity
+    public function findUser(int $id): mixed
     {
         $find = $this->find($id);
 
@@ -44,12 +44,12 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         return $courses;
     }
     
-     public function update(array $request, int $id): CoursesEntity
+     public function update(array $request, int $id): mixed
      {
     
-       $courses  =  $this->find($id);
+        $courses  =  $this->find($id);
        
-        if(isset($request['title']))
+       if(isset($request['title']))
         {
             $courses->setTitle($request['title']);
         }
@@ -76,6 +76,7 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         $doctrine->flush();
 
        return $courses;
+
      }
 
      public function delete(int $id): string

@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Service\CoursesService;
+
 
 class CoursesController extends AbstractController
 {    
@@ -15,6 +15,14 @@ class CoursesController extends AbstractController
     public function __construct(CoursesService $service)
     {
         $this->service = $service;
+    }
+
+     /**
+     * @Route("/api/login_check", name="app_login",methods="POST")
+     */
+    public function login()
+    {
+       dd("Não deu certo :(!");
     }
      
     /**
@@ -28,6 +36,8 @@ class CoursesController extends AbstractController
             return $this->json("Erro 700:(!");
         }
     }
+
+   
     
      /**
      * @Route("/api/course/vizualisation/{id}", name="app_courses_vizualisation",methods="GET")

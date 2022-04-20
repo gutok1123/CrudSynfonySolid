@@ -17,7 +17,7 @@ class CoursesService
       return $this->repository->showAll();
     }
 
-    public function find(int $id)
+    public function find(int $id) : mixed
     {
       return $this->repository->findUser($id);
     }
@@ -27,7 +27,7 @@ class CoursesService
       return $this->repository->create($request);
     }
 
-    public function update(array $request, int $id): CoursesEntity
+    public function update(array $request, int $id): mixed
     {
       return $this->repository->update($request,$id);
     }
