@@ -26,10 +26,18 @@ class RegisterEntityRepository extends ServiceEntityRepository implements Regist
         return $this->findAll();
     }
     
-    public function findUser(int $id): mixed
+    public function findIdCourses(int $id): mixed
     {
         
         $find = $this->findBy(['courses_id' => $id]);
+
+        return  $find;
+    }
+
+    public function findIdStudent(int $id): mixed
+    {
+        $find = $this->findBy(['student_id' => $id]);
+        
 
         return  $find;
     }

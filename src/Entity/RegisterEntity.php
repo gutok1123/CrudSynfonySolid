@@ -23,17 +23,13 @@ class RegisterEntity implements \JsonSerializable
 
 
     /**
-     * @ORM\OneToOne(
-     * targetEntity="App\Entity\StudentEntity"
-     * )
+      *@ORM\ManyToOne(targetEntity="App\Entity\StudentEntity", inversedBy="id")
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     private $student_id;
 
     /**
-     * @ORM\OneToOne(
-     * targetEntity="App\Entity\StudentAccountEntity"
-     * )
+     *@ORM\ManyToOne(targetEntity="App\Entity\StudentAccountEntity", inversedBy="id")
      * @ORM\JoinColumn(name="student_account_id", referencedColumnName="id")
      */
     private $student_account_id;
