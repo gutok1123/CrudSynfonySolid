@@ -40,7 +40,7 @@ class CoursesController extends AbstractController
    
     
      /**
-     * @Route("/api/course/vizualisation/{id}", name="app_courses_vizualisation",methods="GET")
+     * @Route("/api/course/visualization/{id}", name="app_courses_vizualisation",methods="GET")
      */
     public function find(int $id): JsonResponse
     {

@@ -31,7 +31,7 @@ class StudentController extends AbstractController
     }
     
     /**
-     * @Route("/api/student/vizualisation/{id}", name="app_courses_vizualisation",methods="GET")
+     * @Route("/api/student/vizualisation/{id}", name="app_student_vizualisation",methods="GET")
      */
     public function find(int $id): JsonResponse
     {
