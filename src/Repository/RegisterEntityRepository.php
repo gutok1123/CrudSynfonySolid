@@ -24,7 +24,7 @@ class RegisterEntityRepository extends ServiceEntityRepository implements Regist
     public function findUser(int $id): mixed
     {
         
-        $find = $this->refind('2');
+        $find = $this->findBy(['courses_id' => $id]);
 
         return  $find;
     }
