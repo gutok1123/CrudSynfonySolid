@@ -24,6 +24,24 @@ class GlobalFunctions
         }
     }
 
+     /**
+     * @param string date
+     * 
+     * @return string $newFormat
+     */
+    public function converterTypeDateTime(string $date) : string
+    {
+      
+      $ano= substr($date, 6);
+      $mes= substr($date, 3,-5);
+      $dia= substr($date, 0,-8);
+      $result =  $ano."-".$mes."-".$dia;
+      
+      return $result;
+
+    }
+
+
     public function convertToDateTime(string $date): ?\DateTimeInterface
     {
 
@@ -44,16 +62,14 @@ class GlobalFunctions
     ): mixed {
 
         date_default_timezone_set('America/Sao_Paulo');
-        $date = date('d-m-y');
+        $date = date('y-m-d');
         $initial_date->format('d-m-y');
         if ($idCoursesVerification == $idCourses) {
             return $msg = "O Aluno já está cadastrado neste curso,você pode se candidatar a outros cursos, lamento, mas você não pode mais participar deste";
         }
-        if (strtotime($initial_date->format('d-m-y')) <= strtotime($date)) {
-            if (strtotime($finalDate->format('d-m-y')) < strtotime($date)) {
-                return $msg = "O Curso foi encerrado, lamento, mas você não pode mais participar";
-            }
-            return $msg = "O curso esta em andamento, lamento, mas você não pode mais participar";
+        if (strtotime($initial_date->format('y-m-d')) <= strtotime($date)) {
+    
+            return $msg = "O curso esta em andamento ou foi encerrado ,lamento, mas você não pode mais participar";
         }
 
         if ($status == "Inativo") {
@@ -86,10 +102,8 @@ class GlobalFunctions
 
         if (!empty($initial_date)) {
             if (strtotime($initial_date) <= strtotime($date)) {
-                if (strtotime($finalDate->format('d-m-y')) < strtotime($date)) {
-                    return $msg = "O Curso foi encerrado, lamento, mas você não pode mais participar";
-                }
-                return $msg = "O curso esta em andamento, lamento, mas você não pode mais participar";
+            
+                return $msg = "O curso esta em andamento ou foi encerrado, lamento, mas você não pode mais participar";
             }
         }
         if ($status == "Inativo") {

@@ -37,12 +37,15 @@ class StudentService
     public function create(array $request): mixed
     {
       $function = new GlobalFunctions;     
-     
-      $time = strtotime($request['birthday']);
-      $newformat = date('Y-d-m',$time);
-      $request['birthday'] = $function->convertToDateTime($newformat);
+       
+      $newbirthday = $function->converterTypeDateTime($request['birthday']);
+
+      $newformat = $function->convertToDateTime($newbirthday);
       
-       if($function->ageCalculate($newformat))
+
+      $request['birthday'] = $newformat;
+      
+       if($function->ageCalculate($newbirthday))
         {
           return $this->repository->create($request);
         }else{

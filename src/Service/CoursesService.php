@@ -3,6 +3,7 @@
 namespace App\Service;
 use App\Interface\CoursesInterface;
 use App\Helpers\GlobalFunctions;
+use DateTime;
 
 class CoursesService
 {
@@ -37,15 +38,15 @@ class CoursesService
     {
       $function = new GlobalFunctions;
 
-      $newInitialDate = $this->converterTypeDateTime($request['initial_date']);
+      $newInitialDate = $function->converterTypeDateTime($request['initial_date']);
 
-      $newFinalDate = $this->converterTypeDateTime($request['final_date']);
-
+      $newFinalDate = $function->converterTypeDateTime($request['final_date']);
+      
       $request['initial_date'] = $function->convertToDateTime($newInitialDate);
 
       $request['final_date'] = $function->convertToDateTime($newFinalDate);
        
-       
+      
       return $this->repository->create($request);
     }
 
@@ -60,9 +61,9 @@ class CoursesService
     {
       $function = new GlobalFunctions;
        
-      $newInitialDate = isset($request['initial_date']) ? $this->converterTypeDateTime($request['initial_date']) : false ;
+      $newInitialDate = isset($request['initial_date']) ? $function->converterTypeDateTime($request['initial_date']) : false ;
 
-      $newFinalDate = isset($request['final_date']) ? $this->converterTypeDateTime($request['final_date']) : false;
+      $newFinalDate = isset($request['final_date']) ? $function->converterTypeDateTime($request['final_date']) : false;
       
       $request['initial_date'] = $newInitialDate ? $function->convertToDateTime($newInitialDate) : false;
       
@@ -80,20 +81,6 @@ class CoursesService
       return $this->repository->delete($id);
     }
 
-    /**
-     * @param string date
-     * 
-     * @return string $newFormat
-     */
-    public function converterTypeDateTime(string $date) : string
-    {
-      $time = strtotime($date);
-
-      $newFormat = date('Y-d-m',$time);
-      
-      return $newFormat;
-
-    }
-
+   
     
 }
