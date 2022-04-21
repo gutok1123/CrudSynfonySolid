@@ -79,6 +79,13 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
 
      }
 
+     public function findReturnModel(int $id): CoursesEntity
+     {
+         $find = $this->find($id);
+
+         return $find;
+     }
+
      public function delete(int $id): string
      {
         $courses  =  $this->find($id); 

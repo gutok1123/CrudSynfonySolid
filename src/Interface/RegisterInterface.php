@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Interface;
+
+use App\Entity\CoursesEntity;
 use App\Entity\RegisterEntity;
+use App\Entity\StudentAccountEntity;
+use App\Entity\StudentEntity;
 
 interface RegisterInterface
 {
-    public function create(array $request): RegisterEntity;
+    public function create(StudentEntity $studentId, StudentAccountEntity $studentAccountId, CoursesEntity $coursesId): RegisterEntity;
     public function update(array $request, int $id): mixed;
     public function findUser(int $id): mixed;
     public function delete(int $id): string;

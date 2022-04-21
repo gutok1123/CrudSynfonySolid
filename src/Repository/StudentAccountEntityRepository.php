@@ -72,6 +72,13 @@ class StudentAccountEntityRepository extends ServiceEntityRepository implements 
        return $studentAccounts;
      }
 
+     public function findReturnModel(int $id): StudentAccountEntity
+     {
+         $find = $this->find($id);
+
+         return $find;
+     }
+
      public function delete(int $id): string
      {
         $studentAccounts  =  $this->find($id); 

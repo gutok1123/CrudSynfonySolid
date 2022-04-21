@@ -5,18 +5,22 @@ namespace App\Service;
 
 use App\Interface\RegisterInterface;
 use App\Interface\CoursesInterface;
+use App\Interface\StudentAccountInterface;
 use App\Interface\StudentInterface;
 
 
 class RegisterService
 {
-  private $repository, $repositoryCourses, $repositoryStudent;
-  public function __construct(RegisterInterface $repository, CoursesInterface $repositoryCourses, StudentInterface $repositoryStudent)
+  private $repository, $repositoryCourses, $repositoryStudent, $repositoryStudentAccount;
+  public function __construct(RegisterInterface $repository, CoursesInterface $repositoryCourses, StudentInterface $repositoryStudent, StudentAccountInterface $repositoryStudentAccount)
   {
     $this->repository = $repository;
     $this->repositoryCourses = $repositoryCourses;
     $this->repositoryStudent = $repositoryStudent;
+    $this->repositoryStudentAccount = $repositoryStudentAccount;
   }
+
+  
 
   public function showAll() : mixed
   {
@@ -32,8 +36,11 @@ class RegisterService
   {
 
     if (is_array($this->getValidateConditionalsRegisterSystem($request))) {
-      dd("ok");
-      return $this->repository->create($this->getValidateConditionalsRegisterSystem($request));
+      $studentId = $this->repositoryStudent->findReturnModel($request['student_id']);
+      $courseId = $this->repositoryCourses->findReturnModel(($request['course_id']));
+      $studentAccountId = $this->repositoryStudentAccount->findReturnModel($request['student_account_id']);
+      
+       return $this->repository->create($studentId,$studentAccountId, $courseId);
   }
 
 

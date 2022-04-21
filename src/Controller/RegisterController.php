@@ -60,7 +60,7 @@ class RegisterController extends AbstractController
       $data = json_decode($request->getContent(), true);
       return $this->json([$this->service->create($data)]);
       }catch(\Exception $e){
-        return $this->json("Erro 1002:(!");
+        return $this->json($e->getMessage());
       }
     }
 

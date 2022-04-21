@@ -67,17 +67,26 @@ class RegisterEntity implements \JsonSerializable
         return $this->courses_id;
     }
 
-    public function setStudentId(int $student_id)
+       
+    /**
+     * @param int
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function setStudentId(?StudentEntity $student_id) 
     {
         $this->student_id = $student_id;
     }
 
-    public function setStudentAccountId(int $student_account_id)
+    public function setStudentAccountId(?StudentAccountEntity $student_account_id)
     {
-        $this->student_id_account = $student_account_id;
+        $this->student_account_id = $student_account_id;
     }
 
-    public function setCoursesId(int $courses_id)
+    public function setCoursesId(?CoursesEntity $courses_id)
     {
         $this->courses_id = $courses_id;
     }

@@ -77,6 +77,14 @@ class StudentEntityRepository extends ServiceEntityRepository implements Student
        return $students;
      }
 
+     public function findReturnModel(int $id): StudentEntity
+     {
+         $find = $this->find($id);
+
+         return $find;
+     }
+
+    
      public function delete(int $id): string
      {
         $students  =  $this->find($id); 
