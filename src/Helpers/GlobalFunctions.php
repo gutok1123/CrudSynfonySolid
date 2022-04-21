@@ -92,16 +92,16 @@ class GlobalFunctions
     ): mixed {
 
         date_default_timezone_set('America/Sao_Paulo');
-        $date = date('d-m-y');
+        $date = new \DateTime("now", new \DateTimeZone("America/Sao_Paulo"));
 
-        $initial_date = !empty($initial_date) ? $initial_date->format('d-m-y') : '';
+        $initial_date = !empty($initial_date) ? $initial_date : '';
 
         if ($idCoursesVerification == $idCourses) {
             return $msg = "O Aluno já está cadastrado neste curso,você pode se candidatar a outros cursos, lamento, mas você não pode mais participar deste";
         }
 
         if (!empty($initial_date)) {
-            if (strtotime($initial_date) <= strtotime($date)) {
+            if ($initial_date <= $date) {
             
                 return $msg = "O curso esta em andamento ou foi encerrado, lamento, mas você não pode mais participar";
             }

@@ -79,6 +79,8 @@ class RegisterEntityRepository extends ServiceEntityRepository implements Regist
         $register->setStudentId($studentId);
         $register->setCoursesId($coursesId);
         $register->setStudentAccountId($studentAccountId);
+        $register->setCreatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+        $register->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
 
         $doctrine = $this->registry->getManager();
         $doctrine->persist($register);
@@ -114,7 +116,7 @@ class RegisterEntityRepository extends ServiceEntityRepository implements Regist
             $register->setCoursesId($coursesId);
         }
 
-        // $register->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+        $register->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
 
         $doctrine = $this->registry->getManager();
         $doctrine->flush();

@@ -15,18 +15,30 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         parent::__construct($registry, CoursesEntity::class);
         $this->registry = $registry;
     }
-
+    
+    /**
+     * @return array with entity CourseEntity or empty
+     */
     public function showAll():Array
     {
         return $this->findAll();
     }
     
+     /**
+     * @param int $id
+     * @return mixed entity CourseEntity or empty
+     */
     public function findUser(int $id): mixed
     {
         $find = $this->find($id);
 
         return $find;
     }
+
+    /**
+     * @param array $request
+     * @return mixed entity CourseEntity or empty
+     */
     public function create(array $request): CoursesEntity
     {
         $courses = new CoursesEntity;
@@ -44,6 +56,11 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         return $courses;
     }
     
+    /**
+     *@param array $request
+     *@param int $id
+      *@return mixed entity CourseEntity or empty
+     */
      public function update(array $request, int $id): mixed
      {
     
@@ -78,14 +95,22 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
        return $courses;
 
      }
-
+     
+     /**
+      * @param int $id
+      *@return CourseEntity
+      */
      public function findReturnModel(int $id): CoursesEntity
      {
          $find = $this->find($id);
 
          return $find;
      }
-
+ 
+     /**
+      * @param int $id
+      *@return string $msg sucefull or error
+      */
      public function delete(int $id): string
      {
         $courses  =  $this->find($id); 
