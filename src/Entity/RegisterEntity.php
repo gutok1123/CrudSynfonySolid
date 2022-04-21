@@ -90,6 +90,7 @@ class RegisterEntity implements \JsonSerializable
     public function jsonSerialize() : array
     {
         return [
+          "id" => $this->getId(), 
          "Nome" => $this->getStudentId()->getName(),
          "email" => $this->getStudentAccountId()->getEmail(),
          "Curso" => $this->getCoursesId()->getTitle(),

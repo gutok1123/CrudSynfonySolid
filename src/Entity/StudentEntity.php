@@ -63,7 +63,7 @@ class StudentEntity  implements \JsonSerializable
     /**
      * @return datetime
      */
-    public function getBirthDay()
+    public function getBirthDay() :  ?\DateTimeInterface
     {
         return $this->birthDay;
     }
@@ -128,7 +128,7 @@ class StudentEntity  implements \JsonSerializable
     /**
      * @param datetime $birthDay
      */
-    public function setBirthDay(string $birthDay)
+    public function setBirthDay(\DateTimeInterface $birthDay)
     { 
         
         $this->birthDay = $birthDay;

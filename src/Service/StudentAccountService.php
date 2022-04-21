@@ -11,17 +11,30 @@ class StudentAccountService
     {
         $this->repository = $repository;
     }
-
+    
+    /**
+     * @return mixed Entity StudenAccountEntity or empty
+     */
     public function showAll() : mixed
     {
       return $this->repository->showAll();
     }
-
+   
+    /**
+     * @param int $id
+     * 
+     * @return mixed Entity StudenAccountEntity or empty
+     */
     public function find(int $id) : mixed
     {
       return $this->repository->findUser($id);
     }
     
+     /**
+     * @param array $request
+     * 
+     * @return StudentAccountEntity StudentAccountEntity
+     */
     public function create(array $request) : StudentAccountEntity
     {
      
@@ -29,11 +42,22 @@ class StudentAccountService
     
     }
 
+    /**
+     * @param array $request
+     * @param int $id
+     * 
+     * @return mixed Entity StudentAccountEntity or empty
+     */
     public function update(array $request, int $id): mixed
     {
       return $this->repository->update($request,$id);
     }
-
+    
+    /**
+     * @param int $id
+     * 
+     * @return string message sucess or fail
+     */
     public function delete(int $id): string
     {
       return $this->repository->delete($id);

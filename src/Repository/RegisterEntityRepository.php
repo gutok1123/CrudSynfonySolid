@@ -9,7 +9,7 @@ use App\Entity\StudentEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Interface\RegisterInterface;
-use Proxies\__CG__\App\Entity\StudentAccountEntity;
+
 
 class RegisterEntityRepository extends ServiceEntityRepository implements RegisterInterface
 {
@@ -18,91 +18,124 @@ class RegisterEntityRepository extends ServiceEntityRepository implements Regist
     {
         parent::__construct($registry, RegisterEntity::class);
         $this->registry = $registry;
-        
     }
 
-    public function showAll():Array
+    /**
+     * @return array with entity RegisterEntity or empty
+     */
+    public function showAll(): array
     {
         return $this->findAll();
     }
-    
+
+     /**
+     * @param int $id
+     * @return mixed entity RegisterEntity or empty
+     */
+    public function findIdRegister(int $id): mixed
+    {
+        $find = $this->find($id);
+
+        return $find;
+    }
+
+    /**
+     * @param int $id
+     * @return mixed entity RegisterEntity or empty
+     */
     public function findIdCourses(int $id): mixed
     {
-        
+
         $find = $this->findBy(['courses_id' => $id]);
 
         return  $find;
     }
 
+    /**
+     * @param int $id
+     * 
+     * @return mixed entity RegisterEntity or empty
+     */
     public function findIdStudent(int $id): mixed
     {
         $find = $this->findBy(['student_id' => $id]);
-        
+
 
         return  $find;
     }
-   
+
+    /**
+     *@param StudentEntity $studentId
+     * @param EntityStudentAccountEntity $studentAccountId
+     * @param CoursesEntity $coursesId
+     * @param int $id
+     * 
+     * @return RegisterEntity RegisterEntity
+     */
     public function create(StudentEntity $studentId, EntityStudentAccountEntity $studentAccountId, CoursesEntity $coursesId): RegisterEntity
     {
-        
+
         $register = new RegisterEntity;
         $register->setStudentId($studentId);
         $register->setCoursesId($coursesId);
         $register->setStudentAccountId($studentAccountId);
-        
-         $doctrine = $this->registry->getManager();
-         $doctrine->persist($register);
-         $doctrine->flush();
-         return $register;
+
+        $doctrine = $this->registry->getManager();
+        $doctrine->persist($register);
+        $doctrine->flush();
+        return $register;
     }
 
-    
-    
-     public function update(array $request, int $id): mixed
-     {
-    
-        $courses  =  $this->find($id);
-       
-       if(isset($request['title']))
-        {
-            $courses->setTitle($request['title']);
+
+    /**
+     * @param mixed entity StudentEntity or empty
+     * @param mixed entity StudentAccount or empty
+     * @param mixed entity CoursesEntity or empty
+     * @param int $id
+     * 
+     * @return mixed entity StudenAccounttEntity or string message of the error
+     */
+    public function update(mixed $studentId, mixed $studentAccountId, mixed $coursesId, int $id): mixed
+    {
+
+        $register  =  $this->find($id);
+        
+        
+
+        if (!empty($studentId)) {
+            $register->setStudentId($studentId);
         }
 
-        if(isset($request['description']))
-        {
-            $courses->setDescription($request['description']);
+        if (!empty($studentAccountId)) {
+            $register->setStudentAccountId($studentAccountId);
         }
 
-        if(isset($request['initial_date']))
-        {
-            $courses->setInitialDate($request['initial_date']);
+        if (!empty($coursesId)) {
+            $register->setCoursesId($coursesId);
         }
 
-
-        if(isset($request['final_date']))
-        {
-            $courses->setFinalDate($request['final_date']);
-        }
-
-        $courses->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
+        // $register->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
 
         $doctrine = $this->registry->getManager();
         $doctrine->flush();
 
-       return $courses;
+        return $register;
+    }
 
-     }
-
-     public function delete(int $id): string
-     {
-        $courses  =  $this->find($id); 
+    /**
+     * @param int $id
+     * 
+     * @return string message sucess or fail
+     */
+    public function delete(int $id): string
+    {
+        $courses  =  $this->find($id);
         $msg = "Registro Deletado com Sucesso";
 
         $doctrine = $this->registry->getManager();
         $doctrine->remove($courses);
         $doctrine->flush();
 
-         return $msg;
-     }    
-   
+        return $msg;
+    }
 }

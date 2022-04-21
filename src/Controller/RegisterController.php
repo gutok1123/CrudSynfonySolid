@@ -58,7 +58,7 @@ class RegisterController extends AbstractController
     {
       try{
       $data = json_decode($request->getContent(), true);
-      return $this->json([$this->service->create($data)]);
+      return $this->json($this->service->create($data));
       }catch(\Exception $e){
         return $this->json($e->getMessage());
       }
@@ -72,9 +72,9 @@ class RegisterController extends AbstractController
        
        try{
         $data = json_decode($request->getContent(), true);
-        return $this->json(["Dado atualizado com sucesso" => $this->service->update($data,$id)]);
+        return $this->json($this->service->update($data,$id));
        }catch(\Exception $e){
-        return $this->json("Erro 1003:(!");
+        return $this->json($e->getMessage());
        }
     }
 

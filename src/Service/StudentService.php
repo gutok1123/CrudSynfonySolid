@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Service;
-use App\Entity\StudentEntity;
+
 use App\Interface\StudentInterface;
+use App\Helpers\GlobalFunctions;
 
 class StudentService
 {
@@ -12,24 +13,36 @@ class StudentService
         $this->repository = $repository;
     }
 
+    /**
+     * @return mixed entity StudentEntity or empty
+     */
     public function showAll()
     {
       return $this->repository->showAll();
     }
 
+    /**
+     * @param int $id
+     * @return mixed entity StudentEntity or empty
+     */
     public function find(int $id) : mixed
     {
       return $this->repository->findUser($id);
     }
-    
+
+    /**
+     * @param array $request
+     * @return mixed entity StudentEntity or string message
+     */
     public function create(array $request): mixed
     {
+      $function = new GlobalFunctions;     
      
       $time = strtotime($request['birthday']);
-
-       $newformat = date('Y-m-d',$time);
-       
-        if($this->ageCalculate($newformat))
+      $newformat = date('Y-d-m',$time);
+      $request['birthday'] = $function->convertToDateTime($newformat);
+      
+       if($function->ageCalculate($newformat))
         {
           return $this->repository->create($request);
         }else{
@@ -37,34 +50,26 @@ class StudentService
           return $msg;
         };
     }
-
+    
+    /**
+     * @param array $request
+     * @param int $id
+     * 
+     * @return mixed entity StudentEntity or empty
+     */
     public function update(array $request, int $id): mixed
     {
+      
       return $this->repository->update($request,$id);
     }
 
+    /**
+     * @param int $id
+     * @return string message sucess or fail
+     */
     public function delete(int $id): string
     {
       return $this->repository->delete($id);
     }
 
-    public function ageCalculate($secondDate)
-    {
-
-      $firstDate = Date('Y-m-d');
-      $dateDifference = abs(strtotime($secondDate) - strtotime($firstDate));
-
-      $years  = floor($dateDifference / (365 * 60 * 60 * 24));
-      $months = floor(($dateDifference - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-      $days   = floor(($dateDifference - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 *24) / (60 * 60 * 24));
-      
-      
-      if($years > 16)
-      {
-        return true;
-      }else{
-        return false;
-      } ;
-    }
-    
-}
+  }

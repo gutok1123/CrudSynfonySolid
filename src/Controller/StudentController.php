@@ -63,7 +63,7 @@ class StudentController extends AbstractController
        
        try{
          $data = json_decode($request->getContent(), true);
-        return $this->json(["Dado atualizado com sucesso" => $this->service->update($data,$id)]);
+        return $this->json($this->service->update($data,$id));
        }catch(\Exception $e){
         return $this->json("Erro 803:(!");
        }

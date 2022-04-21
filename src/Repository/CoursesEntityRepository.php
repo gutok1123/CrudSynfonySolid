@@ -36,7 +36,7 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         $courses->setFinalDate($request['final_date']);
         $courses->setCreatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
         $courses->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
-       
+
         $doctrine = $this->registry->getManager();
         $doctrine->persist($courses);
         $doctrine->flush();

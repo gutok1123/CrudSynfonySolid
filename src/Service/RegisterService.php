@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\RegisterEntity;
+use App\Helpers\GlobalFunctions;
 use App\Interface\RegisterInterface;
 use App\Interface\CoursesInterface;
 use App\Interface\StudentAccountInterface;
@@ -21,21 +21,32 @@ class RegisterService
   }
 
 
-
+  /**
+   * @return mixed entity RegisterEntity or empty
+   */
   public function showAll(): mixed
   {
     return $this->repository->showAll();
   }
 
+  /**
+   * @param int $id
+   * 
+   * @return mixed Entity RegisterEntity or empty
+   */
   public function find(int $id): mixed
   {
-    return $this->repository->findIdStudent($id);
+    return $this->repository->findIdRegister($id);
   }
 
+  /**
+   * @param array $request
+   * @return mixed entity RegisterEntity or string message
+   */
   public function create(array $request): mixed
   {
 
-    if (is_array($this->getValidateConditionalsRegisterSystem($request))) {
+    if (is_array($this->getValidateConditionalsRegisterSystemCreate($request))) {
       $studentId = $this->repositoryStudent->findReturnModel($request['student_id']);
       $courseId = $this->repositoryCourses->findReturnModel(($request['course_id']));
       $studentAccountId = $this->repositoryStudentAccount->findReturnModel($request['student_account_id']);
@@ -44,32 +55,58 @@ class RegisterService
     }
 
 
-    return $this->getValidateConditionalsRegisterSystem($request);
+    return $this->getValidateConditionalsRegisterSystemCreate($request);
   }
 
-
+  /**
+   * @param array $request
+   * @param int $id
+   * 
+   * @return mixed Entity RegisterEntity or empty
+   */
   public function update(array $request, int $id): mixed
   {
-    return $this->repository->update($request, $id);
+    if (is_array($this->getValidateConditionalsRegisterSystemUpdate($request))) {
+      $studentId = isset($request['student_id']) ? $this->repositoryStudent->findReturnModel($request['student_id']) : '';
+      $courseId = isset($request['course_id']) ? $this->repositoryCourses->findReturnModel(($request['course_id'])) : '';
+      $studentAccountId = isset($request['student_account_id']) ? $this->repositoryStudentAccount->findReturnModel($request['student_account_id']) : '';
+     
+      return $this->repository->update($studentId, $studentAccountId, $courseId, $id);
+    }
+
+
+    return $this->getValidateConditionalsRegisterSystemUpdate($request);
   }
 
+  /**
+   * @param int $id
+   * 
+   * @return string message sucess or fail
+   */
   public function delete(int $id): string
   {
     return $this->repository->delete($id);
   }
 
-  public function getValidateConditionalsRegisterSystem(array $request): mixed
+  /**
+   * @param array $request
+   * 
+   * @return mixed string warnings or array request
+   */
+  public function getValidateConditionalsRegisterSystemCreate(array $request): mixed
   {
-    $dateCourses = $this->repositoryCourses->findUser($request['course_id']);
-    $countStudentsCourses = count($this->repository->findIdCourses($request['course_id']));
-    $statusStudent = $this->repositoryStudent->findUser($request['student_id']);
-    $registerVerification = $this->repository->findIdStudent($request['student_id']);
+    $globalFunction = new GlobalFunctions;
+    
+    $dateCourses = isset($request['course_id']) ? $this->repositoryCourses->findUser($request['course_id']) : '';
+    $countStudentsCourses = isset($request['course_id']) ? count($this->repository->findIdCourses($request['course_id'])) : '';
+    $statusStudent = isset($request['student_id']) ? $this->repositoryStudent->findUser($request['student_id']) : '';
+    $registerVerification = isset($request['student_id']) ?  $this->repository->findIdStudent($request['student_id']) : '';
     $idCoursesVerification = isset($registerVerification[0]) ? $registerVerification[0]->getCoursesId()->getId() : '';
 
 
-
-
-    if ($this->setValidateConditionalsRegisterSystem(
+    
+    
+    if ($globalFunction->setValidateConditionalsRegisterSystemCreate(
       $dateCourses->getInitialDate(),
       $dateCourses->getFinalDate(),
       $statusStudent->getStatus(),
@@ -78,7 +115,7 @@ class RegisterService
       $request['course_id']
 
     ) !== true) {
-      return $this->setValidateConditionalsRegisterSystem(
+      return $globalFunction->setValidateConditionalsRegisterSystemCreate(
         $dateCourses->getInitialDate(),
         $dateCourses->getFinalDate(),
         $statusStudent->getStatus(),
@@ -90,30 +127,87 @@ class RegisterService
 
     return $request;
   }
-
-  public  function setValidateConditionalsRegisterSystem(\DateTime $initial_date, \DateTime $finalDate, string $status, int $countStudents, mixed $idCoursesVerification, int $idCourses): mixed
+  
+    /**
+   * @param array $request
+   * 
+   * @return mixed string warnings or array request
+   */
+  public function getValidateConditionalsRegisterSystemUpdate(array $request): mixed
   {
+    $globalFunction = new GlobalFunctions;
 
-    date_default_timezone_set('America/Sao_Paulo');
-    $date = date('d-m-y');
-    $initial_date->format('d-m-y');
-    if ($idCoursesVerification == $idCourses) {
-      return $msg = "O Aluno já está cadastrado neste curso,você pode se candidatar a outros cursos, lamento, mas você não pode mais participar deste";
-    }
-    if (strtotime($initial_date->format('d-m-y')) <= strtotime($date)) {
-      if (strtotime($finalDate->format('d-m-y')) < strtotime($date)) {
-        return $msg = "O Curso foi encerrado, lamento, mas você não pode mais participar";
+    $dateCourses = isset($request['course_id']) ? $this->repositoryCourses->findUser($request['course_id']) : '';
+    $countStudentsCourses = isset($request['course_id']) ? count($this->repository->findIdCourses($request['course_id'])) : '';
+    $statusStudent = isset($request['student_id']) ? $this->repositoryStudent->findUser($request['student_id']) : '';
+    $registerVerification = isset($request['student_id']) ?  $this->repository->findIdStudent($request['student_id']) : '';
+    $idCoursesVerification = isset($registerVerification[0]) ? $registerVerification[0]->getCoursesId()->getId() : '';
+    
+    
+
+
+    if (empty($statusStudent)) {
+      if ($globalFunction->setValidateConditionalsRegisterSystemUpdate(
+        $dateCourses->getInitialDate(),
+        $dateCourses->getFinalDate(),
+        $statusStudent,
+        $countStudentsCourses,
+        $idCoursesVerification,
+        $request['course_id']
+
+      ) !== true) {
+        return $globalFunction->setValidateConditionalsRegisterSystemUpdate(
+          $dateCourses->getInitialDate(),
+          $dateCourses->getFinalDate(),
+          $statusStudent,
+          $countStudentsCourses,
+          $idCoursesVerification,
+          $request['course_id']
+        );
+      };
+      return $request;
+    } else {
+      if (empty($dataCourses)) {
+        if ($globalFunction->setValidateConditionalsRegisterSystemUpdate(
+          $dateCourses,
+          $dateCourses,
+          $statusStudent->getStatus(),
+          $countStudentsCourses,
+          $idCoursesVerification,
+          $request
+
+        ) !== true) {
+          return $globalFunction->setValidateConditionalsRegisterSystemUpdate(
+            $dateCourses,
+            $dateCourses,
+            $statusStudent->getStatus(),
+            $countStudentsCourses,
+            $idCoursesVerification,
+            $request
+          );
+        };
+        return $request;
       }
-      return $msg = "O curso esta em andamento, lamento, mas você não pode mais participar";
     }
+    if ($globalFunction->setValidateConditionalsRegisterSystemUpdate(
+      $dateCourses->getInitialDate(),
+      $dateCourses->getFinalDate(),
+      $statusStudent->getStatus(),
+      $countStudentsCourses,
+      $idCoursesVerification,
+      $request['course_id']
 
-    if ($status == "Inativo") {
-      return $msg = "O Usuario está inativo, lamento, mas você não pode mais participar";
-    }
+    ) !== true) {
+      return $globalFunction->setValidateConditionalsRegisterSystemUpdate(
+        $dateCourses->getInitialDate(),
+        $dateCourses->getFinalDate(),
+        $statusStudent->getStatus(),
+        $countStudentsCourses,
+        $idCoursesVerification,
+        $request['course_id']
+      );
+    };
 
-    if ($countStudents == 10) {
-      return $msg = "O Curso Atingiu seu limite máximo de participantes, lamento, mas você não pode mais participar";
-    }
-    return true;
+    return $request;
   }
 }

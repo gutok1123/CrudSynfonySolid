@@ -15,19 +15,31 @@ class StudentAccountEntityRepository extends ServiceEntityRepository implements 
         parent::__construct($registry, StudentAccountEntity::class);
         $this->registry = $registry;
     }
-
+    
+    /**
+     * @return array with entity StudentAccountEntity or empty
+     */
     public function showAll():Array
     {
         return $this->findAll();
     }
-
+    
+     /**
+     * @param int $id
+     * @return mixed entity StudentAccountEntity or empty
+     */
     public function findUser(int $id): mixed
     {
         $find = $this->find($id);
 
         return $find;
     }
-
+    
+    /**
+     * @param array $request
+     * 
+     * @return StudentAccountEntity StudentAccountEntity
+     */
     public function create(array $request): StudentAccountEntity
     {
         $studentAccounts = new StudentAccountEntity;
@@ -44,6 +56,12 @@ class StudentAccountEntityRepository extends ServiceEntityRepository implements 
         return $studentAccounts;
     }
     
+    /**
+     * @param array $request
+     * @param int $id
+     * 
+     * @return mixed entity StudenAccounttEntity or string message of the error
+     */
      public function update(array $request, int $id): mixed
      {
     
@@ -72,13 +90,23 @@ class StudentAccountEntityRepository extends ServiceEntityRepository implements 
        return $studentAccounts;
      }
 
+     /**
+     * @param int $id
+     * 
+     * @return StudentAccountEntity StudentAccountEntity
+     */
      public function findReturnModel(int $id): StudentAccountEntity
      {
          $find = $this->find($id);
 
          return $find;
      }
-
+     
+     /**
+     * @param int $id
+     * 
+     * @return string message sucess or fail
+     */
      public function delete(int $id): string
      {
         $studentAccounts  =  $this->find($id); 
