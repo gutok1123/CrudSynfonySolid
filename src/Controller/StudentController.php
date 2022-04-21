@@ -51,7 +51,7 @@ class StudentController extends AbstractController
        $data = json_decode($request->getContent(), true);
       return $this->json($this->service->create($data));
       }catch(\Exception $e){
-        return $this->json($e->getMessage());
+        return $this->json("Erro 802:(!");
       }
     }
 

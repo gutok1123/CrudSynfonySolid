@@ -58,14 +58,14 @@ class CoursesEntityRepository extends ServiceEntityRepository implements Courses
         {
             $courses->setDescription($request['description']);
         }
-
-        if(isset($request['initial_date']))
+          
+        if($request['initial_date'])
         {
             $courses->setInitialDate($request['initial_date']);
         }
 
 
-        if(isset($request['final_date']))
+        if($request['final_date'])
         {
             $courses->setFinalDate($request['final_date']);
         }
